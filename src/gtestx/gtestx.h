@@ -114,7 +114,8 @@
     static int AddToRegistry() { \
       ::testing::UnitTest::GetInstance()->parameterized_test_registry(). \
           GetTestCasePatternHolder<test_case_name>(\
-              #test_case_name, __FILE__, __LINE__)->AddTestPattern(\
+              #test_case_name, ::testing::internal::CodeLocation(\
+                __FILE__, __LINE__))->AddTestPattern(\
                   #test_case_name, \
                   #test_name, \
                   new ::testing::internal::TestMetaFactory< \
@@ -167,7 +168,8 @@
       ::testing::internal::TemplateSel< \
         GTEST_TEST_CLASS_NAME_(CaseName, TestName)>, \
       GTEST_TYPE_PARAMS_(CaseName)>::Register(\
-        "", #CaseName, #TestName, 0); \
+        "", ::testing::internal::CodeLocation(__FILE__, __LINE__), \
+        #CaseName, #TestName, 0); \
   template <typename gtest_TypeParam_> \
   void GTEST_TEST_CLASS_NAME_(CaseName, TestName)<gtest_TypeParam_>::TestBody()
 
