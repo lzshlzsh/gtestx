@@ -1,11 +1,17 @@
+NEED_GTEST_WITH_MAIN := 1
+NEED_GFLAGS := 1
+
+include /usr/local/gtest/Makefile.env
+include /usr/local/gflags/Makefile.env
+
+CXX := /data/gcc-build-4.8.1/bin/g++
+CXXFLAGS += -Wall -I../src -std=c++0x
+LDFLAGS += -pthread -Wl,-dn $(addprefix -l,stdc++) -Wl,-dy
+
 all: gtestx_test
 
-# change to your gtest source directory
-GTEST_SRC_DIR = /home/lzs/github/googletest/googletest
-GFLAGS_DIR := /usr/local/gflags
-
-gtestx_test: gtestx_test.cc ../src/gtestx/gtestx.cc $(GTEST_SRC_DIR)/src/gtest-all.cc
-	g++ -Wall -std=c++0x -I../src -I$(GTEST_SRC_DIR)/include -I$(GTEST_SRC_DIR) -I${GFLAGS_DIR}/include -o $@ $^ -pthread -L${GFLAGS_DIR}/lib -lgflags
+gtestx_test: gtestx_test.cc ../src/gtestx/gtestx.cc
+	${CXX} ${CXXFLAGS} -o $@ $^ ${LDFLAGS}
 
 clean:
 	rm -f gtestx_test

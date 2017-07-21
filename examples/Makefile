@@ -6,7 +6,7 @@ include /usr/local/gflags/Makefile.env
 
 CXX := /data/gcc-build-4.8.1/bin/g++
 CXXFLAGS += -Wall -I../src -std=c++0x
-LDFLAGS += -pthread
+LDFLAGS += -pthread -Wl,-dn $(addprefix -l,stdc++) -Wl,-dy
 
 all: gtestx_examples
 
